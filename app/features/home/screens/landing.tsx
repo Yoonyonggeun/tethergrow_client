@@ -25,13 +25,14 @@ export async function action({ request }: Route.ActionArgs) {
   const formData = await request.json();
   const { actionType, ...formValues } = formData;
 
-  if (actionType === "analyze-bitget") {
-    // Bitget 90일 진단 분석
+  if (["analyze-bitget", "analyze-okx", "analyze-exchange"].includes(actionType)) {
+    // 90일 진단 분석 (Bitget, OKX)
     const response = await apiRequest({
       request,
       endpoint: "/public/analysis",
       method: "POST",
       body: {
+        exchange: formValues.exchange,
         apiKey: formValues.apiKey,
         secretKey: formValues.secretKey || formValues.secret,
         passphrase: formValues.passphrase,

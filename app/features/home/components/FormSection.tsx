@@ -107,8 +107,17 @@ const FormSection = ({ exchanges = [] }: FormSectionProps) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (formData.exchange !== "bitget") {
-      toast.error("현재 Bitget만 지원합니다.", {
+    const supportedExchanges = ["bitget", "okx"];
+
+    if (!formData.exchange) {
+      toast.error("지원하는 거래소를 선택해주세요. (Bitget, OKX)", {
+        position: "bottom-right",
+      });
+      return;
+    }
+
+    if (!supportedExchanges.includes(formData.exchange)) {
+      toast.error("현재 Bitget과 OKX만 지원합니다.", {
         position: "bottom-right",
       });
       return;
@@ -123,7 +132,8 @@ const FormSection = ({ exchanges = [] }: FormSectionProps) => {
 
     analyzeFetcher.submit(
       {
-        actionType: "analyze-bitget",
+        actionType: "analyze-exchange",
+        exchange: formData.exchange,
         apiKey: formData.accessKey,
         secretKey: formData.secretKey,
         passphrase: formData.passphrase,
