@@ -51,7 +51,10 @@ const FormSection = ({ exchanges = [] }: FormSectionProps) => {
   const analyzeFetcher = useFetcher();
 
   useEffect(() => {
-    if (analyzeFetcher.state === "submitting" || analyzeFetcher.state === "loading") {
+    if (
+      analyzeFetcher.state === "submitting" ||
+      analyzeFetcher.state === "loading"
+    ) {
       setFormState("loading");
       return;
     }
@@ -61,7 +64,8 @@ const FormSection = ({ exchanges = [] }: FormSectionProps) => {
     if (analyzeFetcher.data.code === "080104") {
       setFormState("insufficient-data");
       toast.error(
-        analyzeFetcher.data.msg || "분석을 위해서는 최소 100개 이상의 거래 데이터가 필요합니다.",
+        analyzeFetcher.data.msg ||
+          "분석을 위해서는 최소 100개 이상의 거래 데이터가 필요합니다.",
         {
           position: "bottom-right",
         }
@@ -96,7 +100,10 @@ const FormSection = ({ exchanges = [] }: FormSectionProps) => {
     }
 
     if (analyzeFetcher.data.msg && !analyzeFetcher.data.code) {
-      console.log("[FormSection] Success message received (no report):", analyzeFetcher.data);
+      console.log(
+        "[FormSection] Success message received (no report):",
+        analyzeFetcher.data
+      );
       setFormState("result");
       return;
     }
@@ -220,7 +227,10 @@ const FormSection = ({ exchanges = [] }: FormSectionProps) => {
             transition={{ duration: 0.5 }}
             className="space-y-6"
           >
-            <SecurityInfo securityFeatures={securityFeatures} headingIcon={Shield} />
+            <SecurityInfo
+              securityFeatures={securityFeatures}
+              headingIcon={Shield}
+            />
             <TrustBadges />
           </motion.div>
 
@@ -257,7 +267,8 @@ const FormSection = ({ exchanges = [] }: FormSectionProps) => {
                       <h4 className="font-semibold text-loss">데이터 부족</h4>
                     </div>
                     <p className="text-sm text-muted-foreground mb-3">
-                      분석을 위해서는 최소 100개 이상의 거래 데이터가 필요합니다.
+                      분석을 위해서는 최소 100개 이상의 거래 데이터가
+                      필요합니다.
                     </p>
                     {analyzeFetcher.data?.dataCount && (
                       <div className="mt-3 p-3 bg-background/50 rounded-lg text-sm">
@@ -266,8 +277,13 @@ const FormSection = ({ exchanges = [] }: FormSectionProps) => {
                         </p>
                         <div className="text-xs text-muted-foreground space-y-1">
                           <p>Fills: {analyzeFetcher.data.dataCount.fills}개</p>
-                          <p>Orders: {analyzeFetcher.data.dataCount.orders}개</p>
-                          <p>Positions: {analyzeFetcher.data.dataCount.positions}개</p>
+                          <p>
+                            Orders: {analyzeFetcher.data.dataCount.orders}개
+                          </p>
+                          <p>
+                            Positions: {analyzeFetcher.data.dataCount.positions}
+                            개
+                          </p>
                         </div>
                       </div>
                     )}
@@ -293,7 +309,10 @@ const FormSection = ({ exchanges = [] }: FormSectionProps) => {
               )}
 
               {formState === "result" && (
-                <ResultView analyzeFetcher={analyzeFetcher} onFinalSubmit={handleFinalSubmit} />
+                <ResultView
+                  analyzeFetcher={analyzeFetcher}
+                  onFinalSubmit={handleFinalSubmit}
+                />
               )}
             </AnimatePresence>
           </motion.div>
