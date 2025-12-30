@@ -24,15 +24,18 @@ export async function loader({ request }: Route.LoaderArgs) {
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.json();
   const { actionType, ...formValues } = formData;
+  const exchange = typeof formValues.exchange === "string" ? formValues.exchange.toLowerCase() : "";
 
   if (["analyze-bitget", "analyze-okx", "analyze-exchange"].includes(actionType)) {
     // 90일 진단 분석 (Bitget, OKX)
+    const endpoint = exchange === "okx" ? "/public/analysis/okx" : "/public/analysis";
+
     const response = await apiRequest({
       request,
-      endpoint: "/public/analysis",
+      endpoint,
       method: "POST",
       body: {
-        exchange: formValues.exchange,
+        exchange,
         apiKey: formValues.apiKey,
         secretKey: formValues.secretKey || formValues.secret,
         passphrase: formValues.passphrase,
